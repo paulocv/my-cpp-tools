@@ -6,12 +6,18 @@
 #include <cctype>       // isspace, 
 #include <algorithm>    // find_if
 #include <sstream>      // TODO: string streams
+#include <iterator>     // istreambuf_iterator
 
 #include "CustomException.hpp"
 
 
 // ------- Globals not exposed to the extern
 const std::string HEADER_END {"-----"};
+
+
+// ------- FORWARD DECLARATIONS
+void throw_file_not_found(std::string fname);
+// void read_file_content(std::fstream fp);  # Instead, do this: std::string str(std::istreambuf_iterator<char>{ifs}, {});
 
 
 /*
@@ -77,4 +83,33 @@ const char entry_char, const char attr_char, const char comment_char){
     }
 
     return out;
+}
+
+
+str_map_t& read_config_file(str_map_t& out, std::string fname, std::string end_line, 
+const char entry_char, const char attr_char, const char comment_char){
+
+    std::ifstream fp {};
+
+    fp.open(fname, std::ios::in);
+    if (!fp){
+        throw_file_not_found(fname);
+    }
+
+    // Read whole file content into a string
+    std::string file_content {std::istreambuf_iterator<char>{fp}, {}};
+    fp.close();
+
+    return read_config_str(out, file_content, end_line, entry_char, attr_char, comment_char);
+}
+
+
+// ------------------------------------------------------------------------------------------------
+// FILE OPERATIONS
+// ------------------------------------------------------------------------------------------------
+
+void throw_file_not_found(std::string fname){
+    std::stringstream err {};
+    err << "Hey, file '" << fname << "' was not found.";
+    throw CustomException(err.str());
 }

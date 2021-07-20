@@ -19,6 +19,10 @@ void trim_spaces(std::string& s);
 str_map_t& read_config_str(str_map_t& out, std::string s, std::string end_line="-----", 
 const char entry_char='>', const char attr_char='=', const char comment_char='#');
 
+// Interprets a file with dict-like inputs and returns a fresh unordered_map
+str_map_t& read_config_file(str_map_t& out, std::string fname, std::string end_line="-----", 
+const char entry_char='>', const char attr_char='=', const char comment_char='#');
+
 
 
 #endif
