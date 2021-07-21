@@ -2,6 +2,8 @@
 File-related common operations, such as reading and writing a dictionary-like file, I/O of large array-like data, 
 directory creation, etc.
 
+The interface for text is mainly based on C++ std::string class.
+
 */
 
 #ifndef FILE_TOOLS_H  // This is the header guard. Prevents multiple definitions of this header.
@@ -22,6 +24,10 @@ using str_map_t = std::unordered_map<std::string, std::string>;  // A string->st
 
 // Tests if a C++ string is a valid path to a file or directory.
 bool path_exists(const std::string& path);
+
+/* Create a directory if not existent (silently). Recursively creates needed parent directories. Uses linux syntax (unix mkdir command).
+   Returns the result of the system command (0 if succeeded).*/
+int make_dir_recursive(const std::string& path);
 
 
 // --- CONFIGURATION LANGUAGE INTERPRETATION

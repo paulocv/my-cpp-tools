@@ -17,7 +17,7 @@
 
 // ------- FORWARD DECLARATIONS
 void throw_file_not_found(std::string fname);
-// void read_file_content(std::fstream fp);  # Instead, do this: std::string str(std::istreambuf_iterator<char>{ifs}, {});
+// void read_file_content(std::fstream fp);  # Instead, do this: std::string str(std::istreambuf_iterator<char>{fp}, {});
 
 
 /*
@@ -37,6 +37,12 @@ bool path_exists(const std::string& path){
     struct stat buffer;
     return (stat(path.c_str(), &buffer) == 0);
 }
+
+
+int make_dir_recursive(const std::string& path){
+    return system( (std::string("mkdir -p ") + path).c_str() );
+}
+
 
 
 /*
@@ -160,7 +166,3 @@ const char entry_char, const char attr_char){
     fp.close();
 }
 
-
-// ------------------------------------------------------------------------------------------------
-// FILE OPERATIONS
-// ------------------------------------------------------------------------------------------------
