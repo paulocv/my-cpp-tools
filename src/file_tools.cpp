@@ -8,7 +8,7 @@
 #include <sstream>      // stringstream
 #include <sys/stat.h>   // stat
 
-#include "CustomException.hpp"
+#include "custom_exception.hpp"
 
 
 // ------- Globals not exposed to the extern

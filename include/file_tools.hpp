@@ -4,10 +4,13 @@ directory creation, etc.
 
 The interface for text is mainly based on C++ std::string class.
 
+Author: Paulo Cesar Ventura da Silva
+https://github.com/paulocv
+
 */
 
-#ifndef FILE_TOOLS_H  // This is the header guard. Prevents multiple definitions of this header.
-#define FILE_TOOLS_H
+#ifndef FILE_TOOLS_HPP  // This is the header guard. Prevents multiple definitions of this header.
+#define FILE_TOOLS_HPP
 
 #include <string>           // std::string
 #include <utility>          // std::pair
@@ -19,6 +22,9 @@ The interface for text is mainly based on C++ std::string class.
 using str_pair_t = std::pair<std::string, std::string>;          // string/string pair for items of str_map_t
 using str_map_t = std::unordered_map<std::string, std::string>;  // A string->string map
 
+
+// ---------------------
+// Declarations
 
 // --- FILE, PATH AND DIRECTORY OPERATIONS
 
