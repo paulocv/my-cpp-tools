@@ -17,6 +17,19 @@ Adapted from: https://www.learncpp.com/cpp-tutorial/template-classes/
 
 // DEV TODO: if I have guts, change the type of the size from int to another template parameter.
 
+/*
+Homemade two-dimensional array, contiguous in row-major (column index varies first). Usies C++ 
+dynamic allocation of a 1D array.
+
+Provides basic functionality such as:
+- Indexing with (i, j) to access elements by row and column
+- Indexing with [m] to directly access the flat 1D array.
+- Index assertion (Devnote: should remove for performance in core code?)
+- A "null" state, in which size is zero and the data points to a nullptr.
+
+Funcionalities not included
+- Copying or deepcopying
+*/
 template <class T>
 class Custom2DArray
 {
@@ -25,27 +38,42 @@ private:
     int num_cols_{};
     int length_{};
     T *data_{};
+
+    // Used both at the constructor and the rebuild() member function. 
+    // If called out of context, could leave old data allocated withouht pointer (a memory leak).
+    // That's why it's private.
+    void build(int num_rows, int num_cols){
+        num_rows_ = num_rows;
+        num_cols_ = num_cols;
+        length_ = num_rows * num_cols;
+        data_ = new T[num_rows * num_cols]{};
+    }
  
 public:
  
-    // --- Main constructor
-    Custom2DArray(int num_rows, int num_cols) 
-    : num_rows_{num_rows}, num_cols_{num_cols}, length_{num_rows_ * num_cols_}
-    {
-        assert(num_rows > 0 && num_cols > 0);
-        data_ = new T[num_rows * num_cols]{};
+    // --- Constructors
+
+    // Construction of a 2D array with given dimensions (rows, cols).
+    Custom2DArray(int num_rows, int num_cols){
+        build(num_rows, num_cols);
     }
+
+    // Empty (default) construction of a 2D array: leaves at null state.
+    Custom2DArray() : num_cols_{0}, num_rows_{0}, length_{0}, data_{nullptr}  {};
  
     // We don't want to allow copies of IntArray to be created.
     Custom2DArray(const Custom2DArray&) = delete;
     Custom2DArray& operator=(const Custom2DArray&) = delete;
  
-    // --- Main destructor
+ 
+    // --- Destructor
     ~Custom2DArray()
     {
         delete[] data_;
     }
  
+
+    // --- Refactoring functionality
     void erase()
     {
         delete[] data_;
@@ -55,6 +83,12 @@ public:
         num_cols_ = 0;
         num_rows_ = 0;
         length_ = 0;
+    }
+
+    // Removes previous data and reallocates with new dimensions. 
+    void rebuild(int num_rows, int num_cols){
+        erase();
+        build(num_rows, num_cols);
     }
  
     // --- Indexing operations 
