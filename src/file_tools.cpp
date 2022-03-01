@@ -72,7 +72,7 @@ const char entry_char, const char attr_char, const char comment_char){
 
     std::istringstream s_stream {s};  // Create a stream from the input string. This copies the content.
     std::string line;
-    bool use_end_line {end_line == ""};  // If end_line is empty, interpretation only stops at end of string.
+    bool use_end_line {end_line != ""};  // If end_line is empty, interpretation only stops at end of string.
 
 
     while (std::getline(s_stream, line)){
