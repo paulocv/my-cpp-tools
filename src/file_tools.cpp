@@ -67,7 +67,37 @@ void trim_spaces(std::string& s){
 }
 
 
-str_map_t& read_config_str(str_map_t& out, std::string s, std::string end_line, 
+/* 
+Parses entries of a InputMarkup-style C++ string into an ordered map of string: string. 
+
+The function looks for lines starting with `entry_char`. Each one must contain a pair of strings 
+(key and value, respectively) separated by an `attr_char`. Trailing whitespaces around each string 
+are ignored. Besides, anything that comes after a `comment_char` (including itself) is ignored. 
+Finally, the parsing stops after encountering a string `end_line` as a line.
+
+EXAMPLE STRING (using entry_char = '>', attr_char = '=', comment_char = '#' and end_line = "-----")
+--------------
+"""
+> hello = world
+> foo = 1    # This is a comment
+> bar = -2.0
+This line is ignored. The next (empty) line is also ignored:
+
+The parsing stops here (because of the next line)
+-----
+> ignore = this won't be reached, parsing has ended.
+
+"""
+
+@param out  A C++ map of string into string to collect the parsed key/value pairs.
+@param s   Input C++ string to be parsed.
+@param end_line   A string for a line that, when reached, stops the parsing.
+@param entry_char   Character that denotes a meaningful entry line (must be first character in line)
+@param attr_char   Attribution character. Separates the key and value strings (excluding whitespaces)
+@param comment_char   In a valid entry line, everything after this character is ignored.
+
+*/
+str_map_t& read_config_str(str_map_t& out, const std::string& s, std::string end_line, 
 const char entry_char, const char attr_char, const char comment_char){
 
     std::istringstream s_stream {s};  // Create a stream from the input string. This copies the content.

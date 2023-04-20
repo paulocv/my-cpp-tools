@@ -42,7 +42,7 @@ int make_dir_recursive(const std::string& path);
 void trim_spaces(std::string& s);
 
 // Interprets a string of dict-like inputs and returns a fresh unordered_map
-str_map_t& read_config_str(str_map_t& out, std::string s, std::string end_line="-----", 
+str_map_t& read_config_str(str_map_t& out, const std::string& s, std::string end_line="-----", 
 const char entry_char='>', const char attr_char='=', const char comment_char='#');
 
 // Interprets a file with dict-like inputs and returns a fresh unordered_map
