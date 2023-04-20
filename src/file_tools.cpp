@@ -74,8 +74,9 @@ const char entry_char, const char attr_char, const char comment_char){
     std::string line;
     bool use_end_line {end_line != ""};  // If end_line is empty, interpretation only stops at end of string.
 
-
+    int i_line = 0;
     while (std::getline(s_stream, line)){
+        i_line++;  // Updated at the top. File lines starting at 1.
         
         // Line elimination criteria
         if ((line == end_line) and use_end_line) break;
@@ -92,7 +93,9 @@ const char entry_char, const char attr_char, const char comment_char){
         // Look for attr_char. Throw error if not found.
         index = line.find(attr_char);
         if (index == std::string::npos){
-            throw CustomException("Hey, attr_char was not found in a given line.");
+            std::stringstream err_msg{};
+            err_msg << "Hey, attr_char was not found in line " << i_line << ".";
+            throw CustomException(err_msg.str().c_str());
         }
 
         // Key/value separation
